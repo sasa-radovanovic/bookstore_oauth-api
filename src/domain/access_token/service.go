@@ -1,6 +1,8 @@
 package accesstoken
 
 import (
+	"strings"
+
 	"github.com/sasa-radovanovic/bookstore_oauth-api/src/utils/errors"
 )
 
@@ -26,6 +28,14 @@ func NewService(repo Repository) Service {
 }
 
 // GetById retrieves by ID
-func (s *service) GetByID(string) (*AccessToken, *errors.RestErr) {
-	return nil, nil
+func (s *service) GetByID(accessTokenID string) (*AccessToken, *errors.RestErr) {
+	accessTokenID = strings.TrimSpace(accessTokenID)
+	if len(accessTokenID) == 0 {
+		return nil, errors.NewBadRequestError("invalid access token id")
+	}
+	accessToken, err := s.repository.GetByID(accessTokenID)
+	if err != nil {
+		return nil, err
+	}
+	return accessToken, nil
 }
