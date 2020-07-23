@@ -1,6 +1,8 @@
 package app
 
 import (
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/sasa-radovanovic/bookstore_oauth-api/src/clients/cassandra"
 	accesstoken "github.com/sasa-radovanovic/bookstore_oauth-api/src/domain/access_token"
@@ -14,11 +16,9 @@ var (
 
 // StartApplication starts an app
 func StartApplication() {
-	session, dbErr := cassandra.GetSession()
-	if dbErr != nil {
-		panic(dbErr)
-	}
-	session.Close()
+	session := cassandra.GetSession()
+	fmt.Println("Session fetched", !session.Closed())
+
 	atHandler := http.NewHandler(
 		accesstoken.NewService(
 			db.NewRepository(),
@@ -26,6 +26,7 @@ func StartApplication() {
 	)
 
 	router.GET("/oauth/access_token/:access_token_id", atHandler.GetByID)
+	router.POST("/oauth/access_token", atHandler.Create)
 
 	router.Run(":8082")
 }
