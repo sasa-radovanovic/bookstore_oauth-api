@@ -8,6 +8,7 @@ import (
 	accesstoken "github.com/sasa-radovanovic/bookstore_oauth-api/src/domain/access_token"
 	"github.com/sasa-radovanovic/bookstore_oauth-api/src/http"
 	"github.com/sasa-radovanovic/bookstore_oauth-api/src/repository/db"
+	"github.com/sasa-radovanovic/bookstore_oauth-api/src/repository/rest"
 )
 
 var (
@@ -22,6 +23,7 @@ func StartApplication() {
 	atHandler := http.NewHandler(
 		accesstoken.NewService(
 			db.NewRepository(),
+			rest.NewRepository(),
 		),
 	)
 

@@ -8,7 +8,7 @@ import (
 )
 
 func TestGetNewAccessToken(t *testing.T) {
-	at := GetNewAccessToken()
+	at := GetNewAccessToken(1)
 	assert.Equal(t, false, at.IsExpired(), "new access token should not be expired")
 	assert.Equal(t, "", at.AccessToken, "new access token should not have defined access token id")
 	assert.Equal(t, int64(0), at.UserID, "new access token should not have defined user id")
