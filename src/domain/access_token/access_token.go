@@ -27,6 +27,7 @@ type AccessToken struct {
 type AtRequest struct {
 	GrantType string `json:"grant_type"`
 	Scope     string `json:"scope"`
+
 	// Used for grant_type password
 	Username string `json:"username"`
 	Password string `json:"password"`
